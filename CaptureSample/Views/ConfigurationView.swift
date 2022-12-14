@@ -23,103 +23,103 @@ struct ConfigurationView: View {
     var body: some View {
         VStack {
             Form {
-                HeaderView("Video")
+                HeaderView("Monitor")
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 1, trailing: 0))
                 
                 // A group that hides view labels.
                 Group {
-                    VStack(alignment: .leading, spacing: verticalLabelSpacing) {
-                        Text("Capture Type")
-                        Picker("Capture", selection: $screenRecorder.captureType) {
-                            Text("Display")
-                                .tag(ScreenRecorder.CaptureType.display)
-                            Text("Window")
-                                .tag(ScreenRecorder.CaptureType.window)
-                        }
-                    }
+//                    VStack(alignment: .leading, spacing: verticalLabelSpacing) {
+//                        Text("Capture Type")
+//                        Picker("Capture", selection: $screenRecorder.captureType) {
+//                            Text("Display")
+//                                .tag(ScreenRecorder.CaptureType.display)
+//                            Text("Window")
+//                                .tag(ScreenRecorder.CaptureType.window)
+//                        }
+//                    }
                     
                     VStack(alignment: .leading, spacing: verticalLabelSpacing) {
-                        Text("Screen Content")
-                        switch screenRecorder.captureType {
-                        case .display:
-                            Picker("Display", selection: $screenRecorder.selectedDisplay) {
-                                ForEach(screenRecorder.availableDisplays, id: \.self) { display in
-                                    Text(display.displayName)
-                                        .tag(SCDisplay?.some(display))
-                                }
-                            }
-                            
-                        case .window:
-                            Picker("Window", selection: $screenRecorder.selectedWindow) {
-                                ForEach(screenRecorder.availableWindows, id: \.self) { window in
-                                    Text(window.displayName)
-                                        .tag(SCWindow?.some(window))
-                                }
+//                        switch screenRecorder.captureType {
+//                        case .display:
+                        Picker("Display", selection: $screenRecorder.selectedDisplay) {
+                            ForEach(screenRecorder.availableDisplays, id: \.self) { display in
+                                Text(display.displayName)
+                                    .tag(SCDisplay?.some(display))
                             }
                         }
+                            
+//                        case .window:
+//                            Picker("Window", selection: $screenRecorder.selectedWindow) {
+//                                ForEach(screenRecorder.availableWindows, id: \.self) { window in
+//                                    Text(window.displayName)
+//                                        .tag(SCWindow?.some(window))
+//                                }
+//                            }
+//                        }
                     }
+                    .padding(.bottom, 10.0)
                 }
                 .labelsHidden()
                 
-                Toggle("Exclude sample app from stream", isOn: $screenRecorder.isAppExcluded)
-                    .disabled(screenRecorder.captureType == .window)
-                    .onChange(of: screenRecorder.isAppExcluded) { _ in
-                        // Capturing app audio is only possible when the sample is included in the stream.
-                        // Ensure the audio stops playing if the user enables the "Exclude app from stream" checkbox.
-                        if screenRecorder.isAppExcluded {
-                            audioPlayer.stop()
-                        }
-                    }
-                
+//                Toggle("Exclude sample app from stream", isOn: $screenRecorder.isAppExcluded)
+//                    .disabled(screenRecorder.captureType == .window)
+//                    .onChange(of: screenRecorder.isAppExcluded) { _ in
+//                        // Capturing app audio is only possible when the sample is included in the stream.
+//                        // Ensure the audio stops playing if the user enables the "Exclude app from stream" checkbox.
+//                        if screenRecorder.isAppExcluded {
+//                            audioPlayer.stop()
+//                        }
+//                    }
+//
                 // Add some space between the Video and Audio sections.
                 Spacer()
                     .frame(height: 20)
                 
                 HeaderView("Audio")
                 
-                Toggle("Capture audio", isOn: $screenRecorder.isAudioCaptureEnabled)
-                Toggle("Exclude app audio", isOn: $screenRecorder.isAppAudioExcluded)
-                    .disabled(screenRecorder.isAppExcluded)
+//                Toggle("Capture audio", isOn: $screenRecorder.isAudioCaptureEnabled)
+//                Toggle("Exclude app audio", isOn: $screenRecorder.isAppAudioExcluded)
+//                    .disabled(screenRecorder.isAppExcluded)
                 AudioLevelsView(audioLevelsProvider: screenRecorder.audioLevelsProvider)
-                Button {
-                    if !audioPlayer.isPlaying {
-                        audioPlayer.play()
-                    } else {
-                        audioPlayer.stop()
-                    }
-                } label: {
-                    Text("\(!audioPlayer.isPlaying ? "Play" : "Stop") App Audio")
-                }
-                .disabled(screenRecorder.isAppExcluded)
+//                Button {
+//                    if !audioPlayer.isPlaying {
+//                        audioPlayer.play()
+//                    } else {
+//                        audioPlayer.stop()
+//                    }
+//                } label: {
+//                    Text("\(!audioPlayer.isPlaying ? "Play" : "Stop") App Audio")
+//                }
+//                .disabled(screenRecorder.isAppExcluded)
                 Spacer()
             }
             .padding()
             
             Spacer()
-            HStack {
-                Button {
-                    Task { await screenRecorder.start() }
-                    // Fades the paused screen out.
-                    withAnimation(Animation.easeOut(duration: 0.25)) {
-                        userStopped = false
-                    }
-                } label: {
-                    Text("Start Capture")
-                }
-                .disabled(screenRecorder.isRunning)
-                Button {
-                    Task { await screenRecorder.stop() }
-                    // Fades the paused screen in.
-                    withAnimation(Animation.easeOut(duration: 0.25)) {
-                        userStopped = true
-                    }
-                    
-                } label: {
-                    Text("Stop Capture")
-                }
-                .disabled(!screenRecorder.isRunning)
-            }
-            .frame(maxWidth: .infinity, minHeight: 60)
+//            HStack {
+//                Button {
+//                    Task { await screenRecorder.start() }
+//                    // Fades the paused screen out.
+//                    withAnimation(Animation.easeOut(duration: 0.25)) {
+//                        userStopped = false
+//                    }
+//                } label: {
+//                    Text("Start Capture")
+//                }
+//                .disabled(screenRecorder.isRunning)
+//                Button {
+//                    Task { await screenRecorder.stop() }
+//                    // Fades the paused screen in.
+//                    withAnimation(Animation.easeOut(duration: 0.25)) {
+//                        userStopped = true
+//                    }
+//
+//                } label: {
+//                    Text("Stop Capture")
+//                }
+//                .disabled(!screenRecorder.isRunning)
+//            }
+//            .frame(maxWidth: .infinity, minHeight: 60)
         }
         .background(MaterialView())
     }

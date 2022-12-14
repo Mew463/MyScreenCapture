@@ -6,39 +6,51 @@ A view that renders a video frame.
 */
 
 import SwiftUI
+import AppKit
 
 struct CapturePreview: NSViewRepresentable {
+    private var image: NSImage
     
     // A layer that renders the video contents.
-    private let contentLayer = CALayer()
+//    private let contentLayer = CALayer()
     
     init() {
-        contentLayer.contentsGravity = .resizeAspect
+//        contentLayer.contentsGravity = .resizeAspect
     }
     
-    func makeNSView(context: Context) -> CaptureVideoPreview {
-        CaptureVideoPreview(layer: contentLayer)
+    func makeNSView(context: Context) -> NSImage {
+        return image
+//        CaptureVideoPreview(layer: contentLayer)
     }
     
     // Called by ScreenRecorder as it receives new video frames.
     func updateFrame(_ frame: CapturedFrame) {
-        contentLayer.contents = frame.surface
+//        contentLayer.contents = frame.surface // Is this what I'm after? - Ming
+//        contentLayer.cornerRadius = 10
+        
+        if let ciimage = CIFilter(name: "CIGaussianBlur" , parameters: ["inputImage": CIImage(ioSurface: frame.surface!)])!.outputImage {
+            let rep = NSCIImageRep(ciImage: ciimage)
+            image.size = rep.size
+            image.addRepresentation(rep)
+            
+        }
+        
     }
     
     // The view isn't updatable. Updates to the layer's content are done in outputFrame(frame:).
-    func updateNSView(_ nsView: CaptureVideoPreview, context: Context) {}
+    func updateNSView(_ nsView: NSImage, context: Context) {}
     
-    class CaptureVideoPreview: NSView {
-        // Create the preview with the video layer as the backing layer.
-        init(layer: CALayer) {
-            super.init(frame: .zero)
-            // Make this a layer-hosting view. First set the layer, then set wantsLayer to true.
-            self.layer = layer
-            wantsLayer = true
-        }
-        
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-    }
+//    class CaptureVideoPreview: NSView {
+//        // Create the preview with the video layer as the backing layer.
+//        init(layer: CALayer) {
+//            super.init(frame: .zero)
+//            // Make this a layer-hosting view. First set the layer, then set wantsLayer to true.
+//            self.layer = layer
+//            wantsLayer = true
+//        }
+//
+//        required init?(coder: NSCoder) {
+//            fatalError("init(coder:) has not been implemented")
+//        }
+//    }
 }
