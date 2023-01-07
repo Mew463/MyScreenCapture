@@ -22,8 +22,10 @@ struct AudioLevelsView: NSViewRepresentable {
         levelIndicator.heightAnchor.constraint(equalToConstant: 5).isActive = true
         return levelIndicator
     }
+
     
     func updateNSView(_ levelMeter: NSLevelIndicator, context: Context) {
         levelMeter.floatValue = audioLevelsProvider.audioLevels.level * 10
+//        myLedStrip.lightUpPartColors([255,255,255], 1.25-audioLevelsProvider.audioLevels.level)
     }
 }

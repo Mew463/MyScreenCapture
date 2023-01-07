@@ -35,8 +35,10 @@ class PowerMeter: AudioLevelProvider {
     
     var levels: AudioLevels {
         if values.isEmpty { return AudioLevels(level: 0.0, peakLevel: 0.0) }
-        return AudioLevels(level: meterTableAverage.valueForPower(values[0].average),
-                           peakLevel: meterTablePeak.valueForPower(values[0].peak))
+        let avg = values[0].average
+        let peak = values[0].peak
+        return AudioLevels(level: meterTableAverage.valueForPower(avg), // <-- Fatal errror: index out of range
+                           peakLevel: meterTablePeak.valueForPower(peak))
     }
     
     func processSilence() {

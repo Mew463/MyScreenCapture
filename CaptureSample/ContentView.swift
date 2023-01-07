@@ -19,8 +19,20 @@ struct ContentView: View {
     @StateObject var screenRecorder = ScreenRecorder()
     
     var body: some View {
+        Button("Stop") {
+            Task {
+                await screenRecorder.stop()
+            }
+        }
+
+        Button("Start") {
+            Task {
+                await screenRecorder.start()
+            }
+
+        }
         HSplitView {
-            ConfigurationView(screenRecorder: screenRecorder, userStopped: $userStopped)
+            ConfigurationView(screenRecorder: screenRecorder)
                 .frame(minWidth: 280, maxWidth: 280)
                 .disabled(disableInput)
             screenRecorder.capturePreview
@@ -28,14 +40,8 @@ struct ContentView: View {
                 .aspectRatio(screenRecorder.contentSize, contentMode: .fit)
                 .padding(8)
                 .overlay {
-                    if userStopped {
-                        Image(systemName: "nosign")
-                            .font(.system(size: 250, weight: .bold))
-                            .foregroundColor(Color(white: 0.3, opacity: 1.0))
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color(white: 0.0, opacity: 0.5))
-                    }
                 }
+
         }
         .overlay {
             if isUnauthorized {

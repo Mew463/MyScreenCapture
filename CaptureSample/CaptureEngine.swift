@@ -50,8 +50,8 @@ class CaptureEngine: NSObject, @unchecked Sendable {
                 stream = SCStream(filter: filter, configuration: configuration, delegate: streamOutput)
                 
                 // Add a stream output to capture screen content.
-                try stream?.addStreamOutput(streamOutput, type: .screen, sampleHandlerQueue: videoSampleBufferQueue)
-                try stream?.addStreamOutput(streamOutput, type: .audio, sampleHandlerQueue: audioSampleBufferQueue)
+                try stream?.addStreamOutput(streamOutput, type: .screen, sampleHandlerQueue: videoSampleBufferQueue) // <-- Becuase of this dispatchQueue, it is getting the screen data
+                try stream?.addStreamOutput(streamOutput, type: .audio, sampleHandlerQueue: audioSampleBufferQueue) // <-- Becuase of this dispatchQueue, it is getting the audio data
                 stream?.startCapture()
             } catch {
                 continuation.finish(throwing: error)
