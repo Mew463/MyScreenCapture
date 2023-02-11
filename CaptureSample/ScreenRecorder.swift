@@ -219,12 +219,11 @@ class ScreenRecorder: ObservableObject {
             streamConfig.height = Int(window.frame.height) * 2
         }
 
-        // Set the capture interval at 60 fps.
-        streamConfig.minimumFrameInterval = CMTime(value: 1, timescale: 60)
+        streamConfig.minimumFrameInterval = CMTime(value: 1, timescale: 20) // Set the FPS of the frame capture here!
 
         // Increase the depth of the frame queue to ensure high fps at the expense of increasing
         // the memory footprint of WindowServer.
-        streamConfig.queueDepth = 5
+        streamConfig.queueDepth = 15
 
         return streamConfig
     }

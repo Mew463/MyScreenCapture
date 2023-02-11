@@ -9,17 +9,14 @@ import SwiftUI
 import AppKit
 
 struct CapturePreview: NSViewRepresentable {
-    private var image: NSImage = NSImage()
+//    private var image: NSImage = NSImage()
     
     let myMonitorLeds = MonitorLeds((1920,1080))
     
-    func makeNSView(context: Context) -> NSImageView {
-        return NSImageView(image: image)
-    }
+    func makeNSView(context: Context) -> NSImageView { return NSImageView() }
  
 
     func updateFrame(_ frame: CapturedFrame) {
-//        Thread.sleep(forTimeInterval: 0.5)
         if let ciimage = CIFilter(name: "CIGaussianBlur" , parameters: ["inputImage": CIImage(ioSurface: frame.surface!), "inputRadius" : 25])!.outputImage {
 //            let rep = NSCIImageRep(ciImage: ciimage)
 //            image.size = rep.size

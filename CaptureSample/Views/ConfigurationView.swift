@@ -49,7 +49,7 @@ struct ConfigurationView: View {
                 
                 HeaderView("Audio")
                 
-                AudioLevelsView(audioLevelsProvider: screenRecorder.audioLevelsProvider)
+//                AudioLevelsView(audioLevelsProvider: screenRecorder.audioLevelsProvider) // <-- constantly crashing cause of the audio thingy
 
                 Spacer()
             }

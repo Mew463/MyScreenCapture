@@ -34,6 +34,7 @@ class PowerMeter: AudioLevelProvider {
     private var meterTablePeak = MeterTable()
     
     var levels: AudioLevels {
+//        print("Im here")
         if values.isEmpty { return AudioLevels(level: 0.0, peakLevel: 0.0) }
         let avg = values[0].average
         let peak = values[0].peak
